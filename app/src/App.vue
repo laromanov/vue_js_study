@@ -4,13 +4,16 @@
       <h1>Name: {{persone.name}}</h1>
       <h1>Age: {{persone.age}}</h1>
       <h1>Count: {{count}}</h1>
-    </ul>
+    </ul><br><br>
+
+    <h1> Работа с методами </h1><br>
     <button @click="increaseCount">increase count</button><br> 
     <button @click="reduceCount">reduce count</button><br>
     <button @click="changeName">change name</button><br><br><br><br><br>
 
     <p>{{ messageHandler() }}</p><br><br><br><br><br>
 
+    <h1> Работа с computed </h1><br>
     <ul>
       <li> number 1 {{num1}}</li>
       <li> number 2 {{num2}}</li>
@@ -19,7 +22,15 @@
       <li> method {{addNumber2}}</li>
     </ul>
     <button @click="num1++">add num 1</button>
-    <button @click="num2++">add num 2</button>
+    <button @click="num2++">add num 2</button><br><br>
+
+    <h1> Работа с watch </h1>
+    <div>{{name}}</div>
+    <div v-if="isShow">Hello world</div>
+    <button @click="clickbtnHandler">click</button><br><br><br>
+
+    <h1>Lifecycle hooks</h1>
+    <div> {{lifecycle}} </div>
   </div>
 </template>
 
@@ -29,6 +40,9 @@ export default {
   data() {
     return {
       message: 'Hello World',
+      name: "Olga",
+      isShow: false,
+      lifecycle: 'Leo Pomanov',
       total: 20,
       num1: 0,
       num2: 0,
@@ -67,7 +81,39 @@ export default {
     },
     messageHandler() {
       return this.message.split('').reverse().join('')
+    },
+    clickbtnHandler() {
+      this.isShow = !this.isShow;
+    },
+    changeNameWatch() {
+      this.name = "Irina";
     }
+  },
+  watch: {
+    isShow(val) {
+      console.log(1, val);
+      val ? this.changeNameWatch() : alert('False');
+    }
+  },
+  beforeCreate() {
+    console.log('beforeCreate', this.lifecycle);
+    
+  },
+  created() {
+    console.log('created', this.lifecycle);
+    this.lifecycle = 'Moscow';
+  },
+  beforeMount() {
+    console.log('beforeMount', this.lifecycle);
+  },
+  mounted() {
+    console.log('mounted', this.lifecycle/*, this.$el.innerText*/);
+  },
+  beforeDestroy() {
+    console.log('beforeDestroy', this.lifecycle);
+  },
+  destroyed() {
+    console.log('destroyed', this.lifecycle);
   }
 }
 </script>
@@ -78,7 +124,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #000000;
   margin-top: 60px;
 }
 </style>
